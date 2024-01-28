@@ -16,6 +16,7 @@ resources:
 - base/utilities/reloader.yaml
 - base/utilities/reflector.yaml
 - base/utilities/descheduler.yaml
+- base/utilities/prometheus.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/install.yaml
 
 components:
