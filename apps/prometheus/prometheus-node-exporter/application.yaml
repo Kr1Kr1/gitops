@@ -1,22 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  name: prometheus-node-exporter
+  namespace: argocd
 spec:
-  project: monitoring
-  source:
-    repoURL: 'https://github.com/Kr1Kr1/gitops.git'
-    path: apps/prometheus
-    targetRevision: main
   destination:
     name: in-cluster
     namespace: argocd
+  project: monitoring
+  source:
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    targetRevision: 4.13.0
+    helm:
+      values: |-
+        hostRootFsMount:
+          enabled: false
+    chart: prometheus-node-exporter
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+      allowEmpty: true
     syncOptions:
     - Validate=false
     - CreateNamespace=true
