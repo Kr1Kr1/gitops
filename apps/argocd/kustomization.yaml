@@ -17,7 +17,6 @@ resources:
 - base/utilities/reflector.yaml
 - base/utilities/descheduler.yaml
 - base/utilities/prometheus.yaml
-- base/utilities/prometheus-operator-crds.yaml
 - https://raw.githubusercontent.com/argoproj/argo-cd/v2.8.9/manifests/install.yaml
 
 components:
