@@ -1,2 +1,0 @@
-2024-01-28 19:03:22 UTC [70]: [5-1] 65b6a4fa.46 0     LOG:  ending log output to stderr
-2024-01-28 19:03:22 UTC [70]: [6-1] 65b6a4fa.46 0     HINT:  Future log output will go to log destination "csvlog".
