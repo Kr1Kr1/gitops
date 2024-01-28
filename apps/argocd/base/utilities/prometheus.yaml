@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: monitoring
+  source:
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    targetRevision: 56.0.5
+    helm:
+      skipCrds: true
+      values: |-
+        prometheus:
+          prometheusSpec:
+            serviceMonitorSelector:
+              matchLabels:
+                prometheus: argo-cd-grafana
+            additionalScrapeConfigs: |
+              - job_name: 'argocd'
+                scrape_interval: 30s
+                scrape_timeout: 10s
+                static_configs:
+                  - targets: ['argocd-application-controller-metrics.argocd.svc.cluster.local:8082', 'argocd-redis-metrics.argocd.svc.cluster.local:9121']
+              - job_name: 'alertManager'
+                scrape_interval: 30s
+                scrape_timeout: 10s
+                static_configs:
+                  - targets: ['alertmanager-operated.argocd.svc.cluster.local:9093']
+        alertmanager:
+          enabled: true
+        nodeExporter:
+          enabled: false
+    chart: kube-prometheus-stack
+  destination:
+    name: in-cluster
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - ApplyOutOfSyncOnly=false
+    - Prune=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 20s
+        factor: 2
+        maxDuration: 15m
