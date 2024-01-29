@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   pullPolicy: IfNotPresent
-  repository: apatora/devops-test-api
+  repository: registry.local.gd:5002/devops-test-api
   tag: latest
 imagePullSecrets: []
 nameOverride: ""
