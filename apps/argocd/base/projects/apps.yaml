@@ -21,6 +21,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: example
     server: https://kubernetes.default.svc
+  - namespace: helm-apatora
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
