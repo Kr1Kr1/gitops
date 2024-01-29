@@ -27,6 +27,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MONGO_HOST
+              value: helm-{{ .Chart.Name }}-mongodb-headless
+            - name: DB_NAME
+              value: 'admin'
           ports:
             - name: http
               containerPort: 3000
