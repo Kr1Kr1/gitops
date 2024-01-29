@@ -28,10 +28,26 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: REDIS_HOST
+              value: "$(HELM_APATORA_REDIS_MASTER_SERVICE_HOST)"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: helm-apatora-redis
+                  key: redis-password
             - name: MONGO_HOST
-              value: helm-{{ .Chart.Name }}-mongodb-headless
-            - name: DB_NAME
-              value: 'admin'
+              value: "$(HELM_APATORA_MONGODB_SERVICE_HOST)"
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_USERNAME
+              value: "apatora"
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: helm-apatora-mongodb
+                  key: mongodb-root-password
           ports:
             - name: http
               containerPort: 3000

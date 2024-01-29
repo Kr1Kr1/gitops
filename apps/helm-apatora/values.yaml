@@ -32,13 +32,12 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: apatora.local
-      paths: []
+    - host: apatora.k8s.localhost
+      # paths:
+      #   - path: /
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -64,12 +63,21 @@ affinity: {}
 
 # helm-apatora-mongodb
 mongodb:
-  architecture: replicaset
+  image:
+    repository: zcube/bitnami-compat-mongodb
+    tag: latest
+  architecture: standalone
   persistence:
     enabled: true
   auth:
     enabled: true
-    username: "admin"
+    username: "apatora"
+    password: "superpassword12345"
+    database: "test"
     rootPassword: "superpassword123"
-    password: "superpassword1234"
-    database: "apatora"
+
+# helm-apatora-redis
+redis:
+  architecture: standalone
+  auth:
+    password: "redispasswordsupersecure"
