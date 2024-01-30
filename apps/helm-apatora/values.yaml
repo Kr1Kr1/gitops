@@ -67,8 +67,8 @@ mongodb:
     repository: zcube/bitnami-compat-mongodb
     tag: latest
   architecture: standalone
-  persistence:
-    enabled: true
+  # persistence:
+  #   enabled: true
   auth:
     enabled: true
     username: "apatora"
